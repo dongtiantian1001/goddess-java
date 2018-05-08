@@ -13,6 +13,8 @@ import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by huanghuanlai on 2017/1/14.
@@ -30,7 +32,11 @@ public class ActionExceptionHandler extends AbstractHandlerExceptionResolver {
     protected ModelAndView doResolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         ActResult actResult = new ActResult();
         httpServletResponse.setContentType(JSON_CONTEXT);
-        actResult.setMsg(e.getMessage());
+        if (!isChinese(e.getMessage())) {
+            actResult.setMsg("服务器错误:"+e.getMessage());
+        } else {
+            actResult.setMsg(e.getMessage());
+        }
         e.printStackTrace();
         if (e instanceof ActException || e instanceof HystrixBadRequestException) {
             actResult.setCode(1);
@@ -48,25 +54,33 @@ public class ActionExceptionHandler extends AbstractHandlerExceptionResolver {
         }
         if (StringUtils.isNotBlank(e.getMessage()) && e.getMessage().startsWith("Forbid consumer")) {
             LOGGER.error(e.getMessage());
-            actResult.setMsg("服务调用失败");
+            actResult.setMsg("服务调用失败:"+e.getMessage());
         }
         /**
          * 处理数据库异常
          */
         String msg = handleJapException(e);
-        if(null!=msg){
+        if (StringUtils.isNotBlank(msg)) {
             actResult.setMsg(msg);
         }
         ResponseContext.writeData(actResult);
         return new ModelAndView();
     }
 
-    private String handleJapException(Exception throwable) {
+    private String handleJapException(Throwable throwable) {
         String msg = throwable.getMessage();
         String result = null;
         result = StringUtils.substringAfter(msg, "Caused by: java.sql.SQLIntegrityConstraintViolationException:");
-        if (StringUtils.isNotBlank(result)) {
 
+        if (StringUtils.isNotBlank(result)) {
+            /**
+             * 处理唯一约束
+             */
+            result = StringUtils.substringBefore(result, "' for key");
+            result = StringUtils.substringAfter(result, "Duplicate entry '");
+            if (StringUtils.isNotBlank(result)) {
+                return "[" + result + "]该名称已被占用!";
+            }
             /**
              * 处理非空约束
              */
@@ -76,16 +90,8 @@ public class ActionExceptionHandler extends AbstractHandlerExceptionResolver {
             if (StringUtils.isNotBlank(result)) {
                 return "[" + result + "]不能为空!";
             }
-            /**
-             * 处理唯一约束
-             */
-            result = StringUtils.substringBefore(result, "' for key");
-            result = StringUtils.substringAfter(result, "Duplicate entry '");
-            if (StringUtils.isNotBlank(result)) {
-                return "[" + result + "]该名称已被占用!";
-            }
         }
-        result =StringUtils.substringAfter(msg,"com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column '");
+        result = StringUtils.substringAfter(msg, "com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column '");
         if (StringUtils.isNotBlank(result)) {
             /**
              * 数据长度
@@ -93,6 +99,20 @@ public class ActionExceptionHandler extends AbstractHandlerExceptionResolver {
             result = StringUtils.substringBefore(result, "' at row");
             return "[" + result + "]超出长度范围!";
         }
-        return null;
+        return result;
     }
+
+    private static final String REG = "[\u4e00-\u9fa5]";
+
+    public boolean isChinese(String str) {
+        if (StringUtils.isNotBlank(str)) {
+            Pattern p = Pattern.compile(REG);
+            Matcher m = p.matcher(str);
+            if (m.find()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

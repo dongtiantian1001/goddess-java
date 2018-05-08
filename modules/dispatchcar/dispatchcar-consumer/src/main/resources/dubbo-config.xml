@@ -15,11 +15,15 @@
 	<dubbo:registry address="${dubbo.registry.address}" />
 
 	<!-- 注册接口-->
+	<!-- 图形化 -->
+    <dubbo:reference interface="com.bjike.goddess.dispatchcar.api.ImageColletcAPI" id="imageCollectApiImpl" />
 
     <!-- 出车API -->
 	<dubbo:reference interface="com.bjike.goddess.dispatchcar.api.DispatchCarInfoAPI" id="dispatchCarInfoApiImpl" />
 
-    <!-- 租车费用基本信息API -->
+	<!--<dubbo:reference interface="com.bjike.goddess.oilcardmanage.api.OilCardBasicAPI" id="oilCardBasicApiImpl" />-->
+
+	<!-- 租车费用基本信息API -->
 	<dubbo:reference interface="com.bjike.goddess.dispatchcar.api.LeaseCarCostAPI" id="leaseCarCostApiImpl" />
 
     <!-- 文件上传API -->
@@ -39,6 +43,14 @@
 
     <!-- 权限API -->
 	<dubbo:reference interface="com.bjike.goddess.dispatchcar.api.CusPermissionAPI" id="cusPermissionApiImpl" />
+	<dubbo:reference interface="com.bjike.goddess.dispatchcar.api.CheckChangeCarAPI" id="checkChangeCarApiImpl" />
+
+
+	<dubbo:reference interface="com.bjike.goddess.dispatchcar.api.DispatchcarRecordCollectAPI" id="dispatchcarRecordCollectApiImpl" />
+
+	<!--<dubbo:reference  validation="true" id="entryBasicInfoApiImpl" interface="com.bjike.goddess.staffentry.api.StaffEntryRegisterAPI" />-->
+
+
 
 
 

@@ -16,17 +16,16 @@
 
 	<!--以下配置为注册业务接口,所有控制器,业务层等用到的业务接口都需在此配置-->
 	<dubbo:reference  validation="true" id="userApiImpl" interface="com.bjike.goddess.user.api.UserAPI" />
-	<dubbo:reference validation="true" id="entryBasicInfoApiImpl" interface="com.bjike.goddess.staffentry.api.EntryBasicInfoAPI" />
 
-	<dubbo:reference  validation="true" id="ageAssistApiImpl" interface="com.bjike.goddess.assistance.api.AgeAssistAPI" />
-	<dubbo:reference  validation="true" id="assistanceEmpApiImpl" interface="com.bjike.goddess.assistance.api.AssistanceEmpAPI" />
-	<dubbo:reference  validation="true" id="assistancePlanApiImpl" interface="com.bjike.goddess.assistance.api.AssistancePlanAPI" />
-	<dubbo:reference  validation="true" id="assistanceRecordApiImpl" interface="com.bjike.goddess.assistance.api.AssistanceRecordAPI" />
-	<dubbo:reference  validation="true" id="assistanceStandardApiImpl" interface="com.bjike.goddess.assistance.api.AssistanceStandardAPI" />
-	<dubbo:reference  validation="true" id="computerAssistApiImpl" interface="com.bjike.goddess.assistance.api.ComputerAssistAPI" />
-	<dubbo:reference  validation="true" id="hotAssistApiImpl" interface="com.bjike.goddess.assistance.api.HotAssistAPI" />
-	<dubbo:reference  validation="true" id="houseAssistApiImpl" interface="com.bjike.goddess.assistance.api.HouseAssistAPI" />
-	<dubbo:reference  validation="true" id="rightSetApiImpl" interface="com.bjike.goddess.assistance.api.RightSetAPI" />
-
+	<dubbo:reference validation="true" id="cusPermissionOperateApiImpl" interface="com.bjike.goddess.assistance.api.CusPermissionOperateAPI" />
+	<dubbo:reference validation="true" id="cusPermissionApiImpl" interface="com.bjike.goddess.assistance.api.CusPermissionAPI" />
+	<dubbo:reference validation="true" id="computerSubsidiesApiImpl" interface="com.bjike.goddess.assistance.api.ComputerSubsidiesAPI" />
+	<dubbo:reference validation="true" id="senioritySubsidiesApiImpl" interface="com.bjike.goddess.assistance.api.SenioritySubsidiesAPI" />
+	<dubbo:reference validation="true" id="senioritySubsidiesStandardApiImpl" interface="com.bjike.goddess.assistance.api.SenioritySubsidiesStandardAPI" />
+	<dubbo:reference validation="true" id="subsidySchemeApiImpl" interface="com.bjike.goddess.assistance.api.SubsidySchemeAPI" />
+	<dubbo:reference validation="true" id="temperatureSubsidiesApiImpl" interface="com.bjike.goddess.assistance.api.TemperatureSubsidiesAPI" />
+	<dubbo:reference  validation="true"  interface="com.bjike.goddess.organize.api.UserSetPermissionAPI" id="userSetPermissionApiImpl"/>
+	<!--<dubbo:reference validation="true" interface="com.bjike.goddess.assemble.api.ModuleAPI" id="moduleApiImpl"/>-->
+	<dubbo:reference validation="true" interface="com.bjike.goddess.organize.api.PositionDetailUserAPI" id="positionDetailUserApiImpl"/>
 
 </beans>

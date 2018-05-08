@@ -67,7 +67,16 @@ public interface ModuleSer extends Ser<Module, ModuleDTO> {
      * @param name
      * @throws SerException
      */
-    default Boolean isCheck(String name) throws SerException {
+    default Boolean  isCheck(String name) throws SerException {
+        return null;
+    }
+    /**
+     * 根据模块名查询模块id
+     *
+     * @param name
+     * @throws SerException
+     */
+    default Module getIdByName(String name) throws SerException {
         return null;
     }
 

@@ -31,4 +31,11 @@ public class AreaBO implements Serializable {
     public void setArea(String area) {
         this.area = area;
     }
+
+    @Override
+    public String toString() {
+        return "AreaBO{" +
+                "area='" + area + '\'' +
+                '}';
+    }
 }

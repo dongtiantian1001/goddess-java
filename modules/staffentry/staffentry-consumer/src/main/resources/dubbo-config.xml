@@ -18,10 +18,9 @@
 	<dubbo:reference validation="true" id="userApiImpl" interface="com.bjike.goddess.user.api.UserAPI" />
 	<dubbo:reference validation="true" id="permissionApiImpl" interface="com.bjike.goddess.user.api.rbac.PermissionAPI" />
 	<dubbo:reference validation="true" id="credentialApiImpl" interface="com.bjike.goddess.staffentry.api.CredentialAPI" />
-	<dubbo:reference validation="true" id="entryBasicInfoApiImpl" interface="com.bjike.goddess.staffentry.api.EntryBasicInfoAPI" />
 	<dubbo:reference validation="true" id="entryRegisterApiImpl" interface="com.bjike.goddess.staffentry.api.EntryRegisterAPI" />
 	<dubbo:reference validation="true" id="familyMemberApiImpl" interface="com.bjike.goddess.staffentry.api.FamilyMemberAPI" />
-	<dubbo:reference validation="true" id="salaryConfirmRecordApiImpl" interface="com.bjike.goddess.staffentry.api.SalaryConfirmRecordAPI" />
+	<dubbo:reference validation="true" id="communicationFormworkApiImpl" interface="com.bjike.goddess.staffentry.api.CommunicationFormworkAPI" />
 	<dubbo:reference validation="true" id="studyExperienceApiImpl" interface="com.bjike.goddess.staffentry.api.StudyExperienceAPI" />
 	<dubbo:reference validation="true" id="workExperienceApiImpl" interface="com.bjike.goddess.staffentry.api.WorkExperienceAPI" />
 	<dubbo:reference validation="true" id="staffEntryRegisterApiImpl" interface="com.bjike.goddess.staffentry.api.StaffEntryRegisterAPI" />
@@ -31,9 +30,15 @@
 	<dubbo:reference  validation="true" id="moduleTypeApiImpl" interface="com.bjike.goddess.organize.api.ModuleTypeAPI" />
 	<dubbo:reference  validation="true" id="positionDetailApiImpl" interface="com.bjike.goddess.organize.api.PositionDetailAPI" />
 	<dubbo:reference  validation="true" id="positionDetailUserApiImpl" interface="com.bjike.goddess.organize.api.PositionDetailUserAPI" />
+	<dubbo:reference  validation="true" id="userSetPermissionAPIApiImpl" interface="com.bjike.goddess.organize.api.UserSetPermissionAPI" />
 	<dubbo:reference  validation="true" id="cusPermissionApiImpl" interface="com.bjike.goddess.staffentry.api.CusPermissionAPI" />
 	<dubbo:reference  validation="true" id="cusPermissionOperateApiImpl" interface="com.bjike.goddess.staffentry.api.CusPermissionOperateAPI" />
 
+
+	<dubbo:reference  validation="true" id="fileApiImpl" interface="com.bjike.goddess.storage.api.FileAPI" />
+	<dubbo:reference  validation="true" id="storageUserApiImpl" interface="com.bjike.goddess.storage.api.StorageUserAPI" />
+	<dubbo:reference  validation="true" id="messageApiImpl" interface="com.bjike.goddess.message.api.MessageAPI" />
+	<dubbo:reference  validation="true" id="moduleApiImpl" interface="com.bjike.goddess.assemble.api.ModuleAPI" />
 
 
 </beans>

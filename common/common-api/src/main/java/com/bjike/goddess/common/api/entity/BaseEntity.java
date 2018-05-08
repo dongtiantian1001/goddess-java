@@ -1,10 +1,10 @@
 package com.bjike.goddess.common.api.entity;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public abstract class BaseEntity implements Serializable{
+public abstract class   BaseEntity implements Serializable{
     /**
      * 数据行id
      */

@@ -57,6 +57,17 @@ public class FundRecordApiImpl implements FundRecordAPI {
         return (long)fundRecordSer.findAllBO(dto,new VoucherGenerateDTO()).size();
     }
 
+
+    @Override
+    public List<FundRecordBO> findList(FundRecordDTO dto) throws SerException {
+        return fundRecordSer.findList(dto);
+    }
+
+    @Override
+    public Long findCount(FundRecordDTO dto) throws SerException {
+        return fundRecordSer.findCount(dto);
+    }
+
     @Override
     public MonthCollectBO month(Integer year ,Integer month) throws SerException {
         return fundRecordSer.month(year ,month);
@@ -93,6 +104,11 @@ public class FundRecordApiImpl implements FundRecordAPI {
     }
 
     @Override
+    public byte[] exportExcelLJT(String dataSource) throws SerException {
+        return fundRecordSer.exportExcelLJT(dataSource);
+    }
+
+    @Override
     public byte[] exportExcel(String startDate, String endDate) throws SerException {
         return fundRecordSer.exportExcel(startDate,endDate);
     }
@@ -112,4 +128,68 @@ public class FundRecordApiImpl implements FundRecordAPI {
         return fundRecordSer.guidePermission(to);
     }
 
+    @Override
+    public List<String> sourceAccountValue() throws SerException {
+        return fundRecordSer.sourceAccountValue();
+    }
+
+    @Override
+    public void exportFund() throws SerException {
+        fundRecordSer.exportFund();
+    }
+
+    @Override
+    public MonthCollectBO monthSumma(Integer year, Integer month) throws SerException {
+        return fundRecordSer.monthSumma(year,month);
+    }
+
+    @Override
+    public ConditionCollectBO areaSumma(Integer year, Integer month, String area) throws SerException {
+        return fundRecordSer.areaSumma(year,month,area);
+    }
+
+    @Override
+    public ConditionCollectBO projectSumma(Integer year, Integer month, String project) throws SerException {
+        return fundRecordSer.projectSumma(year,month,project);
+    }
+
+    @Override
+    public ConditionCollectBO projectNameSumma(Integer year, Integer month, String projectName) throws SerException {
+        return fundRecordSer.projectNameSumma(year,month,projectName);
+    }
+
+    @Override
+    public List<String> findAllArea() throws SerException {
+        return fundRecordSer.findAllArea();
+    }
+
+    @Override
+    public List<String> findAllProjectGroup() throws SerException {
+        return fundRecordSer.findAllProjectGroup();
+    }
+
+    @Override
+    public List<String> findAllProjectName() throws SerException {
+        return fundRecordSer.findAllProjectName();
+    }
+
+    @Override
+    public AreaAnalyzeBO areaAnalysis(Integer year, Integer month, String area) throws SerException {
+        return fundRecordSer.areaAnalysis(year, month, area);
+    }
+
+    @Override
+    public GroupAnalyzeBO projectAnalysis(Integer year, Integer month, String project) throws SerException {
+        return fundRecordSer.projectAnalysis(year, month, project);
+    }
+
+    @Override
+    public ProjectAnalyzeBO projectNameAnalysis(Integer year, Integer month, String projectName) throws SerException {
+        return fundRecordSer.projectNameAnalysis(year,month,projectName);
+    }
+
+    @Override
+    public List<String> findAllDataSource() throws SerException {
+        return fundRecordSer.findAllDataSource();
+    }
 }

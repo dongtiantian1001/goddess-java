@@ -12,11 +12,15 @@
 
 	<dubbo:application name="${dubbo.application.name}" />
 	<dubbo:provider filter="userFilter" timeout="${dubbo.provider.timeout}" />
-	<dubbo:consumer check="false" timeout="15000" />
+	<dubbo:consumer check="false" timeout="20000" />
 	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}" />
 	<dubbo:registry address="${dubbo.registry.address}" />
 
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.AssetAPI" ref="assetApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.CashAnalyseAPI" ref="cashAnalyseApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.CashFlowAPI" ref="cashFlowApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.CashFlowDataAPI" ref="cashFlowDataApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.DataAPI" ref="dataApiImpl"/>
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.AssetDebtAPI" ref="assetDebtApiImpl"/>
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.AssetStructureAdviceAPI" ref="assetStructureAdviceApiImpl"/>
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.DebtAPI" ref="debtApiImpl"/>
@@ -26,13 +30,23 @@
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.ProfitIndicatorAdviceAPI" ref="profitIndicatorAdviceApiImpl"/>
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.ProfitRegulationAdviceAPI" ref="profitRegulationAdviceApiImpl"/>
 	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.RepayAnalyzeAdviceAPI" ref="repayAnalyzeAdviceApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.CusPermissionAPI" ref="cusPermissionApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.CusPermissionOperateAPI" ref="cusPermissionOperateApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.ProfitFormulaAPI" ref="profitFormulaApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.ProjectAPI" ref="projectApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.CashFlowProjectAPI" ref="cashFlowProjectApiImpl"/>
+	<dubbo:service  validation="true"  interface="com.bjike.goddess.reportmanagement.api.ProfitDataAPI" ref="profitDataApiImpl"/>
 
 	<dubbo:reference validation="true"  interface="com.bjike.goddess.user.api.UserAPI" id="userApiImpl"/>
+	<dubbo:reference validation="true"  interface="com.bjike.goddess.user.api.UserLoginAPI" id="userLoginApiImpl"/>
 	<dubbo:reference validation="true"  interface="com.bjike.goddess.organize.api.PositionDetailUserAPI" id="positionDetailUserApiImpl"/>
 	<dubbo:reference validation="true"  interface="com.bjike.goddess.organize.api.ArrangementAPI" id="arrangementApiImpl"/>
 	<dubbo:reference validation="true"  interface="com.bjike.goddess.organize.api.ModuleTypeAPI" id="moduleTypeApiImpl"/>
 	<dubbo:reference validation="true"  interface="com.bjike.goddess.organize.api.PositionDetailAPI" id="positionDetailApiImpl"/>
 	<dubbo:reference validation="true"  interface="com.bjike.goddess.organize.api.DepartmentDetailAPI" id="departmentDetailApiImpl"/>
-	<dubbo:reference validation="true"  interface="com.bjike.goddess.subjectcollect.api.SubjectCollectAPI" id="subjectCollectApiImpl"/>
+	<dubbo:reference validation="true"  interface="com.bjike.goddess.voucher.api.VoucherGenerateAPI" id="voucherGenerateApiImpl"/>
+	<dubbo:reference validation="true"  interface="com.bjike.goddess.assemble.api.ModuleAPI" id="moduleApiImpl"/>
+	<dubbo:reference validation="true"  interface="com.bjike.goddess.financeinit.api.AccountanCourseAPI" id="accountanCourseApiImpl"/>
+	<dubbo:reference validation="true"  interface="com.bjike.goddess.financeinit.api.CompanyBasicInfoAPI" id="companyBasicInfoApiImpl"/>
 
 </beans>

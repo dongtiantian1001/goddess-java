@@ -22,9 +22,20 @@
 
     <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.ProjectOutsourcingAPI" ref="projectOutsourcingApiImpl"/>
 
+    <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.BusinessNegotiationAPI" ref="businessNegotiationApiImpl"/>
+
+    <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.SkillLibraryAPI" ref="skillLibraryApiImpl"/>
+
     <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.CusPermissionAPI" ref="cusPermissionApiImpl"/>
 
     <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.CusPermissionOperateAPI" ref="cusPermissionOperateApiImpl"/>
+
+    <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.ContractCollectEmailAPI" ref="contractCollectEmailApiImpl"/>
+
+    <dubbo:service interface="com.bjike.goddess.contractcommunicat.api.BusinessNegotiationCollectAPI" ref="businessNegotiationCollectApiImpl"/>
+
+
+
 
     <dubbo:reference validation="true"  interface="com.bjike.goddess.user.api.UserAPI" id="userApiImpl"/>
 
@@ -37,5 +48,24 @@
     <dubbo:reference  validation="true" id="positionDetailApiImpl" interface="com.bjike.goddess.organize.api.PositionDetailAPI" />
 
     <dubbo:reference  validation="true" id="positionDetailUserApiImpl" interface="com.bjike.goddess.organize.api.PositionDetailUserAPI" />
+    <dubbo:reference id="userSetPermissionApiImpl" interface="com.bjike.goddess.organize.api.UserSetPermissionAPI" />
+
+
+
+    <dubbo:reference  validation="true" id="fileApiImpl" interface="com.bjike.goddess.storage.api.FileAPI" />
+    <dubbo:reference  validation="true" id="storageUserApiImpl" interface="com.bjike.goddess.storage.api.StorageUserAPI" />
+    <dubbo:reference  validation="true" id="messageApiImpl" interface="com.bjike.goddess.message.api.MessageAPI" />
+
+
+
+    <dubbo:reference  validation="true" id="permissionApiImpl" interface="com.bjike.goddess.user.api.rbac.PermissionAPI" />
+    <dubbo:reference  validation="true" id="baseInfoManageApiImpl" interface="com.bjike.goddess.businessproject.api.BaseInfoManageAPI" />
+    <dubbo:reference  validation="true" id="marketInfoApiImpl" interface="com.bjike.goddess.market.api.MarketInfoRecordAPI" />
+    <dubbo:reference  validation="true" id="moduleApiImpl" interface="com.bjike.goddess.assemble.api.ModuleAPI" />
+    <dubbo:reference  validation="true" id="commonalityApiImpl" interface="com.bjike.goddess.contacts.api.CommonalityAPI" />
+    <dubbo:reference  validation="true" id="internalContactsApiImpl" interface="com.bjike.goddess.contacts.api.InternalContactsAPI" />
+
+
+
 
 </beans>

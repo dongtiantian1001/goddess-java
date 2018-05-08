@@ -48,6 +48,17 @@ public class ExcelUtil {
         }
     }
 
+    /**
+     * 获取工作薄
+     *
+     * @param is
+     * @return
+     * @throws IOException
+     */
+    public static XSSFWorkbook getWb(InputStream is) throws Exception {
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        return wb;
+    }
 
     /**
      * excel文件流转换成实体类
@@ -75,14 +86,21 @@ public class ExcelUtil {
                     if (cellSize > 0) {
                         Object obj = clazz.newInstance();
                         for (int j = 0; j < cellSize; j++) {
-                            ExcelHeader eh = headers.get(j);
-                            String cellVal = getCellValue(row.getCell(j), eh);
-                            Object val = convertValue(cellVal, eh, fields);
-                            if (eh.notNull() && null == val) {
-                                throw new ActException(rowIndex + " 行,列[" + eh.name() + "]不能为空!");
-                            } else if (null != val) {
-                                setFieldValue(obj, eh.name(), val, fields);
+                            ExcelHeader eh = null;
+                            if (headers.size() > j) {
+                                eh = headers.get(j);
+                                String cellVal = getCellValue(row.getCell(j), eh);
+                                Object val = convertValue(cellVal, eh, fields);
+                                if (eh.notNull() && null == val) {
+                                    throw new ActException(rowIndex + excel.getHeaderStartRow() + " 行,列[" + eh.name() + "]不能为空!");
+                                } else if (null != val) {
+                                    setFieldValue(obj, eh.name(), val, fields);
+                                }
+                            } else {
+                                throw new ActException("不符合导入表格要求");
                             }
+
+
                         }
                         objects.add((T) obj);
                     }
@@ -97,6 +115,66 @@ public class ExcelUtil {
         }
 
     }
+
+    /**
+     * tanghaixiang
+     * 实体类转换成excel流
+     * 一个excel导出多个sheet
+     *
+     * @param objects 转换类 任意类属性作为表头
+     * @param <T>
+     * @return
+     */
+    public static <T> XSSFWorkbook clazzToExcelAddMoreSheet(XSSFWorkbook wb, List<T> objects, Excel excel, int sheetIndex) {
+        XSSFSheet sheet = wb.createSheet();
+        wb.setSheetName(sheetIndex, excel.getSheetName());
+        if (null != objects && objects.size() > 0) {
+            List<Field> fields = ClazzUtils.getFields(objects.get(0).getClass()); //获得列表对象属性
+            List<ExcelHeader> excelHeaders = getExcelHeaders(fields, excel.getExcludes()); //获得表头
+            int rowSize = objects.size(); //数据行数
+            int cellSize = excelHeaders.size();//数据列数
+            int rowIndex = initTitleAndHeader(wb, sheet, excel, excelHeaders, cellSize);//初始化标题行及表头
+            XSSFCellStyle contentStyle = getStyle(wb, excel.getContentBGColor());
+            for (int i = 0; i < rowSize; i++) {
+                Object obj = objects.get(i);
+                XSSFRow row = sheet.createRow(rowIndex++);
+                row.setHeight(excel.getContentHeight());
+                for (int j = 0; j < cellSize; j++) {
+                    XSSFCell cell = row.createCell(j);
+                    try {
+                        Object val = null;
+                        Field field = null;
+                        for (Field fd : fields) {
+                            if (fd.getAnnotation(ExcelHeader.class).name().equals(excelHeaders.get(j).name())) {
+                                fd.setAccessible(true);
+                                val = fd.get(obj);
+                                field = fd;
+                                break;
+                            }
+                        }
+                        if (null != val) {
+                            String cellValue = val.toString();
+                            setCellValue(cell, field, val);
+                            if (excel.isAutoColumnWidth()) {
+                                int val_length = cellValue.getBytes().length; //获取数据值长度
+                                int name_length = excelHeaders.get(j).name().getBytes().length;//获取表头长度
+                                int columnWidth = val_length > name_length ? val_length : name_length;
+                                columnWidth = columnWidth > 30 ? 30 : columnWidth;
+                                sheet.setColumnWidth(j, columnWidth * 275);//设置自动宽度
+                            }
+                        }
+                        cell.setCellStyle(contentStyle);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e.getMessage());
+                    }
+                }
+            }
+        } else {
+            LOGGER.info("clazzToExcel: objects is null !");
+        }
+        return wb;
+    }
+
 
     /**
      * tanghaixiang 上传的表格含有合并单元格
@@ -128,7 +206,8 @@ public class ExcelUtil {
                         Object obj = clazz.newInstance();
 
                         List<Object> vs = new ArrayList<>();
-                        for (int j = 0; j < cellSize; j++) {
+//                        for (int j = 0; j < cellSize; j++) {  修改2018-03-21
+                        for (int j = 0; j < headers.size(); j++) {
                             ExcelHeader eh = headers.get(j);
                             String cellVal = "";
                             //判断是否是合并的单元格
@@ -159,7 +238,6 @@ public class ExcelUtil {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
     }
 
     /**
@@ -295,7 +373,7 @@ public class ExcelUtil {
      * @param fields
      * @return
      */
-    private static List<ExcelHeader> getExcelHeaders(List<Field> fields, String[] excludes) {
+    public static List<ExcelHeader> getExcelHeaders(List<Field> fields, String[] excludes) {
         List<ExcelHeader> excelHeaders = new ArrayList<>(0);// 获取类上的所有注解信息
         for (Field field : fields) {
             ExcelHeader eh = field.getAnnotation(ExcelHeader.class);
@@ -349,7 +427,7 @@ public class ExcelUtil {
      * @param fields
      * @return
      */
-    private static Object convertValue(String val, ExcelHeader eh, List<Field> fields) throws ActException {
+    public static Object convertValue(String val, ExcelHeader eh, List<Field> fields) throws ActException {
         Object value = null;
         if (StringUtils.isBlank(val)) {
             return value;
@@ -372,7 +450,7 @@ public class ExcelUtil {
      * @param cell
      * @return
      */
-    private static String getCellValue(Cell cell, ExcelHeader eh) throws ActException {
+    public static String getCellValue(Cell cell, ExcelHeader eh) throws ActException {
         String val = null;
         try {
             if (null != cell) {
@@ -420,6 +498,7 @@ public class ExcelUtil {
 
     }
 
+
     /**
      * 验证表头是否正确
      *
@@ -460,7 +539,7 @@ public class ExcelUtil {
      * @return
      */
     private static int initTitleAndHeader(XSSFWorkbook wb, XSSFSheet sheet, Excel excel, List<ExcelHeader> excelHeaders, int cellSize) {
-        int rowIndex = 0;
+        int rowIndex = excel.getHeaderStartRow();
         XSSFCellStyle titleStyle = wb.createCellStyle();  // 标题的样式
         titleStyle.setAlignment(HorizontalAlignment.CENTER); //水平布局：居中
         titleStyle.setWrapText(true);
@@ -495,10 +574,11 @@ public class ExcelUtil {
      * @param color
      * @return
      */
-    private static XSSFCellStyle getStyle(XSSFWorkbook wb, short color) {
+    public static XSSFCellStyle getStyle(XSSFWorkbook wb, short color) {
         // 内容的样式
         XSSFCellStyle style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER); //水平布局：居中
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
         if (color != IndexedColors.WHITE.getIndex()) {
             style.setFillForegroundColor(color);
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND); //设置单元格颜色
@@ -518,7 +598,7 @@ public class ExcelUtil {
      * @return
      */
 
-    private static String fieldToEnum(Field field, Object val) throws ActException {
+    public static String fieldToEnum(Field field, Object val) throws ActException {
         Field[] enumFields = field.getType().getFields();
         String value = val.toString();
         for (Field f : enumFields) {
@@ -542,7 +622,7 @@ public class ExcelUtil {
      * @param obj
      * @param val
      */
-    private static void enumToField(Field field, Object obj, Object val) throws ActException {
+    public static void enumToField(Field field, Object obj, Object val) throws ActException {
         String value = val.toString();
         try {
             Field[] enumFields = field.getType().getFields();
@@ -557,7 +637,7 @@ public class ExcelUtil {
                 }
             }
             if (!exist) {
-                throw new ActException("["+field.getAnnotation(ExcelHeader.class).name()+ "]字段只能填写:[" + StringUtils.join(fields, ",") + "]");
+                throw new ActException("[" + field.getAnnotation(ExcelHeader.class).name() + "]字段只能填写:[" + StringUtils.join(fields, ",") + "]");
             }
 
         } catch (Exception e) {
@@ -574,17 +654,22 @@ public class ExcelUtil {
      * @param val
      * @throws ActException
      */
-    private static void setCellValue(Cell cell, Field field, Object val) throws ActException {
+    public static void setCellValue(Cell cell, Field field, Object val) throws ActException {
+        val = val == null ? "" : val;
         String fileType = field.getType().getName();
-
         if (fileType.equals(LocalDateTime.class.getName()) || //处理时间类型
                 fileType.equals(LocalDate.class.getName()) ||
                 fileType.equals(LocalTime.class.getName())) {
             cell.setCellValue(DateUtil.dateToString(val));
         } else if (fileType.equals(Double.class.getName())) {//Double
+            val = val == "" ? 0d : val;
             cell.setCellValue(Double.parseDouble(val.toString()));
         } else if (fileType.equals(Integer.class.getName())) {//Integer
+            val = val == "" ? 0 : val;
             cell.setCellValue(Integer.parseInt(val.toString()));
+        } else if (fileType.equals(Long.class.getName())) {//Long
+            val = val == "" ? 0 : val;
+            cell.setCellValue(Long.parseLong(val.toString()));
         } else if (field.getType().isEnum()) {//枚举
             cell.setCellValue(fieldToEnum(field, val));
         } else { //字符

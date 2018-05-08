@@ -19,6 +19,24 @@
 	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.RegularizationAPI" id="regularizationApiImpl"/>
 	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.ScoreFormulaSetAPI" id="scoreFormulaSetApiImpl"/>
 	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.TimeCriteriaSetAPI" id="timeCriteriaSetApiImpl"/>
-	<dubbo:reference  validation="true" id="userApiImpl" interface="com.bjike.goddess.user.api.UserAPI" />
+	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.TransferInfoAPI" id="transferInfoApiImpl"/>
+	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.CommunicationFormworkAPI" id="communicationFormworkApiImpl"/>
+	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.CountAPI" id="countApiImpl"/>
+	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.CusPermissionAPI" id="cusPermissionApiImpl"/>
+	<dubbo:reference validation="true" interface="com.bjike.goddess.regularization.api.CusPermissionOperateAPI" id="cusPermissionOperateApiImpl"/>
 
+
+	<dubbo:reference validation="true" id="userApiImpl" interface="com.bjike.goddess.user.api.UserAPI" />
+	<dubbo:reference  validation="true" id="permissionApiImpl" interface="com.bjike.goddess.user.api.rbac.PermissionAPI" />
+
+
+	<dubbo:reference  validation="true" id="departmentDetailApiImpl" interface="com.bjike.goddess.organize.api.DepartmentDetailAPI" />
+	<dubbo:reference  validation="true" id="arrangementApiImpl" interface="com.bjike.goddess.organize.api.ArrangementAPI" />
+	<dubbo:reference  validation="true" id="moduleTypeApiImpl" interface="com.bjike.goddess.organize.api.ModuleTypeAPI" />
+	<dubbo:reference  validation="true" id="positionDetailApiImpl" interface="com.bjike.goddess.organize.api.PositionDetailAPI" />
+	<dubbo:reference  validation="true" id="positionDetailUserApiImpl" interface="com.bjike.goddess.organize.api.PositionDetailUserAPI" />
+	<dubbo:reference  validation="true" id="userSetPermissionApiImpl" interface="com.bjike.goddess.organize.api.UserSetPermissionAPI" />
+	<dubbo:reference  validation="true" id="entryRegisterApiImpl" interface="com.bjike.goddess.staffentry.api.EntryRegisterAPI" />
+	<dubbo:reference  validation="true" id="moduleApiImpl" interface="com.bjike.goddess.assemble.api.ModuleAPI" />
+	<dubbo:reference  validation="true" id="disciplineRecordApiImpl" interface="com.bjike.goddess.bonus.api.DisciplineRecordAPI" />
 </beans>

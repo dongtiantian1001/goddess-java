@@ -22,6 +22,8 @@
     <dubbo:service interface="com.bjike.goddess.dimission.api.DimissionInfoAPI" ref="dimissionInfoApiImpl"/>
     <dubbo:service interface="com.bjike.goddess.dimission.api.HandoverReferenceAPI" ref="handoverReferenceApiImpl"/>
     <dubbo:service interface="com.bjike.goddess.dimission.api.WorkHandoverAPI" ref="workHandoverApiImpl"/>
+    <dubbo:service interface="com.bjike.goddess.dimission.api.SituationAPI" ref="situationApiImpl"/>
+    <dubbo:service interface="com.bjike.goddess.dimission.api.InterviewAPI" ref="interviewApiImpl"/>
 
 
     <!--以下配置为(上面的依赖注入接口所依赖的),如上面的 UserAPI的某个业务注入了UserLoginAPI 册需要配置该关系.
@@ -31,4 +33,15 @@
     <dubbo:reference validation="true" interface="com.bjike.goddess.organize.api.PositionDetailAPI"
                      id="positionDetailApiImpl"/>
     <dubbo:reference interface="com.bjike.goddess.organize.api.PositionDetailUserAPI" id="positionDetailUserApiImpl"/>
+
+    <dubbo:reference  validation="true" id="departmentDetailApiImpl" interface="com.bjike.goddess.organize.api.DepartmentDetailAPI" />
+    <dubbo:reference  validation="true" id="arrangementApiImpl" interface="com.bjike.goddess.organize.api.ArrangementAPI" />
+    <dubbo:reference  validation="true" id="moduleTypeApiImpl" interface="com.bjike.goddess.organize.api.ModuleTypeAPI" />
+    <dubbo:reference  validation="true" id="userSetPermissionApiImpl" interface="com.bjike.goddess.organize.api.UserSetPermissionAPI" />
+    <dubbo:reference  validation="true" id="staffRecordsApiImpl" interface="com.bjike.goddess.archive.api.StaffRecordsAPI" />
+    <dubbo:reference  validation="true" id="moduleApiImpl" interface="com.bjike.goddess.assemble.api.ModuleAPI" />
+
+    <dubbo:service  ref="cusPermissionApiImpl" interface="com.bjike.goddess.dimission.api.CusPermissionAPI" />
+    <dubbo:service  ref="cusPermissionOperateApiImpl" interface="com.bjike.goddess.dimission.api.CusPermissionOperateAPI" />
+
 </beans>
